@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-
+from django.contrib.auth.models import User
 
 class Flat(models.Model):
     owner = models.CharField('ФИО владельца', max_length=200)
@@ -49,7 +49,9 @@ class Flat(models.Model):
     new_building = models.BooleanField('Новостройка',
                                        choices=[(True, "Да"),
                                                 (False, "Нет")],
-                                       blank=True, default=None)
+                                       default=False,  # Устанавливаем значение по умолчанию
+                                       null=False,  # Убираем возможность быть NULL
+                                       blank=True)
     def save(self, *args, **kwargs):
         """Автоматически определяет, новостройка или старое здание"""
         if self.construction_year >= 2015:
@@ -61,3 +63,9 @@ class Flat(models.Model):
 
     def __str__(self):
         return f'{self.town}, {self.address} ({self.price}р.)'
+
+
+class Complaints(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Кто жаловался')
+    apartment = models.ForeignKey(Flat, on_delete=models.CASCADE, verbose_name='Квартира, на которую жаловались')
+    complaint = models.TextField(verbose_name='Текст жалобы')
