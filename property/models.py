@@ -47,10 +47,17 @@ class Flat(models.Model):
         blank=True,
         db_index=True)
     new_building = models.BooleanField('Новостройка',
-                                       choices=[(1, "Новостройка"),
-                                                (0, "Старое здание"),
-                                                (None, 'Неизвестно')], default='Неизвестно',
-                                       null=True, blank=True)
+                                       choices=[(True, "Да"),
+                                                (False, "Нет")],
+                                       null=True, blank=True, default=None)
+    def save(self, *args, **kwargs):
+        """Автоматически определяет, новостройка или старое здание"""
+        if self.construction_year >= 2015:
+            self.new_building = True
+        else:
+            self.new_building = False
+        super().save(*args, **kwargs)
+
 
     def __str__(self):
         return f'{self.town}, {self.address} ({self.price}р.)'
