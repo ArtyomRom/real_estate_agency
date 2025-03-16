@@ -15,7 +15,6 @@ SECRET_KEY = env.str('SECRET_KEY', 'REPLACE_ME')
 
 DEBUG = env.bool('DEBUG', True)
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -28,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
 
     'property.apps.PropertyConfig',
+    'phonenumber_field'
 ]
 
 MIDDLEWARE = [
@@ -100,3 +100,8 @@ DATABASES = {
         os.getenv('DATABASE', 'sqlite:///db.sqlite3')
     ),
 }
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+PHONENUMBER_DB_FORMAT = 'E164'  # Хранение номеров в формате +1234567890
+PHONENUMBER_DEFAULT_REGION = 'RU'  # Регион по умолчанию (Россия)
+PHONENUMBER_DEFAULT_FORMAT = 'INTERNATIONAL'  # Формат вывода
