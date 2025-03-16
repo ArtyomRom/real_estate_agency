@@ -52,6 +52,7 @@ class Flat(models.Model):
                                        default=False,  # Устанавливаем значение по умолчанию
                                        null=False,  # Убираем возможность быть NULL
                                        blank=True)
+    likes = models.ManyToManyField(User, verbose_name='Кто лайкнул')
     def save(self, *args, **kwargs):
         """Автоматически определяет, новостройка или старое здание"""
         if self.construction_year >= 2015:

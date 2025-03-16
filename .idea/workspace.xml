@@ -5,21 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a1affacd-4296-44da-9b62-00166da71d81" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Django_Lib.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/property/migrations/0003_auto_20250316_1609.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/property/migrations/0005_auto_20250316_1617.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/property/migrations/0006_auto_20250316_1626.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/property/migrations/0007_auto_20250316_1737.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/real_estate_agency.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/real_estate_agency.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/property/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/property/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/property/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/property/migrations/0001_initial.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/property/migrations/0002_auto_20190829_2242.py" beforeDir="false" afterPath="$PROJECT_DIR$/property/migrations/0002_auto_20190829_2242.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/property/migrations/0003_flat_new_building.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/property/migrations/0004_auto_20250316_1341.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/property/migrations/0005_auto_20250316_1406.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/property/migrations/0006_auto_20250316_1441.py" beforeDir="false" afterPath="$PROJECT_DIR$/property/migrations/0004_auto_20250316_1611.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/property/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/property/models.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -94,7 +81,7 @@
       <option name="presentableId" value="Default" />
       <updated>1742137830503</updated>
       <workItem from="1742137832096" duration="257000" />
-      <workItem from="1742138098207" duration="1797000" />
+      <workItem from="1742138098207" duration="2478000" />
     </task>
     <servers />
   </component>
