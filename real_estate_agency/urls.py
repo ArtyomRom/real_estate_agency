@@ -1,7 +1,6 @@
 from django.urls import path, re_path
 
 from django.contrib import admin
-from django.urls import path
 from property import views
 
 urlpatterns = [
