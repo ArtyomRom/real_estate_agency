@@ -80,6 +80,8 @@ class Owner(models.Model):
     apartaments = models.ManyToManyField(Flat, related_name="owner_apartaments",
                                          verbose_name='Квартиры в собственности')
 
+    def __str__(self):
+        return self.owner
 
 class Complaints(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Кто жаловался')
