@@ -1,10 +1,10 @@
 from django.contrib import admin
 from django.urls import reverse
 from django.utils.html import format_html
-from .models import Flat, Complaints, Owner
+from .models import Flat, Complaint, Owner
 
 
-class OwnerInline(admin.TabularInline):  # Можно также использовать admin.StackedInline
+class OwnerInline(admin.TabularInline):
     model = Flat.owner_apartaments.through
     raw_id_fields = ['owner', 'flat']
 
@@ -37,7 +37,7 @@ class ComplaintsAdmin(admin.ModelAdmin):
 
 class OwnerAdmin(admin.ModelAdmin):
     raw_id_fields = ['apartaments']
-    list_display = ['owner', 'owner_number', 'get_apartaments']  # Добавляем колонку "Квартиры"
+    list_display = ['owner', 'owner_correct_phone', 'get_apartaments']  # Добавляем колонку "Квартиры"
 
     def get_apartaments(self, obj):
         flats = obj.apartaments.all()  # Получаем все квартиры владельца
@@ -52,5 +52,5 @@ class OwnerAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Flat, FlatAdmin)
-admin.site.register(Complaints, ComplaintsAdmin)
+admin.site.register(Complaint, ComplaintsAdmin)
 admin.site.register(Owner, OwnerAdmin)

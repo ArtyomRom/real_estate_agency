@@ -6,7 +6,6 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 class Flat(models.Model):
     owner = models.CharField('ФИО владельца', max_length=200)
-    owners_phonenumber = models.CharField('Номер владельца', max_length=20, blank=True, null=True)
     owner_pure_phone = PhoneNumberField(region="RU", verbose_name="Нормализованный номер владельца", blank=True,
                                         null=True)
     created_at = models.DateTimeField(
@@ -56,7 +55,8 @@ class Flat(models.Model):
                                                 (False, "Нет")],
                                        default=False,  # Устанавливаем значение по умолчанию
                                        null=False,  # Убираем возможность быть NULL
-                                       blank=True)
+                                       blank=True,
+                                       db_index=True)
     likes = models.ManyToManyField(User, verbose_name='Кто лайкнул', blank=True)
 
     def save(self, *args, **kwargs):
@@ -74,16 +74,18 @@ class Flat(models.Model):
 class Owner(models.Model):
     """Собственники квартир"""
     owner = models.CharField(verbose_name='ФИО владельца', max_length=200)
-    owner_number = models.CharField('Номер владельца', max_length=20, blank=True, null=True)
     owner_correct_phone = PhoneNumberField(region="RU", verbose_name="Нормализованный номер владельца", blank=True,
                                            null=True)
-    apartaments = models.ManyToManyField(Flat, related_name="owner_apartaments",
+    apartaments = models.ManyToManyField(Flat, related_name="owners",
                                          verbose_name='Квартиры в собственности')
 
     def __str__(self):
         return self.owner
 
-class Complaints(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Кто жаловался')
-    apartment = models.ForeignKey(Flat, on_delete=models.CASCADE, verbose_name='Квартира, на которую жаловались')
+
+class Complaint(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Кто жаловался',
+                             related_name='complaints')
+    apartment = models.ForeignKey(Flat, on_delete=models.CASCADE, verbose_name='Квартира, на которую жаловались',
+                                  related_name='complaints')
     complaint = models.TextField(verbose_name='Текст жалобы')
