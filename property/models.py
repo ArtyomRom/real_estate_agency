@@ -4,10 +4,12 @@ from django.utils import timezone
 from phonenumber_field.modelfields import PhoneNumberField
 
 
+
 class Flat(models.Model):
-    owner = models.CharField('ФИО владельца', max_length=200)
-    owner_pure_phone = PhoneNumberField(region="RU", verbose_name="Нормализованный номер владельца", blank=True,
-                                        null=True)
+    # owner = models.CharField('ФИО владельца', max_length=200)
+    # owner_pure_phone = PhoneNumberField(region="RU", verbose_name="Нормализованный номер владельца", blank=True,
+    #                                     null=True)
+    owners = models.ManyToManyField('Owner', through='FlatOwnership', related_name='owned_flats')
     created_at = models.DateTimeField(
         'Когда создано объявление',
         default=timezone.now,
@@ -42,7 +44,7 @@ class Flat(models.Model):
         blank=True,
         db_index=True)
 
-    # has_balcony = models.NullBooleanField('Наличие балкона', db_index=True)
+
     has_balcony = models.BooleanField('Наличие балкона', null=True, blank=True, db_index=True)
     active = models.BooleanField('Активно-ли объявление', db_index=True)
     construction_year = models.IntegerField(
@@ -57,7 +59,7 @@ class Flat(models.Model):
                                        null=False,  # Убираем возможность быть NULL
                                        blank=True,
                                        db_index=True)
-    likes = models.ManyToManyField(User, verbose_name='Кто лайкнул', blank=True)
+    likes = models.ManyToManyField(User, verbose_name='Кто лайкнул', blank=True, related_name='liked_flats')
 
     def save(self, *args, **kwargs):
         """Автоматически определяет, новостройка или старое здание"""
@@ -67,20 +69,34 @@ class Flat(models.Model):
             self.new_building = False
         super().save(*args, **kwargs)
 
+    def get_owners(self):
+        return ", ".join([str(owner.owner) for owner in self.owners_list.all()])
+
+    get_owners.short_description = "Собственники"
+
     def __str__(self):
         return f'{self.town}, {self.address} ({self.price}р.)'
 
 
 class Owner(models.Model):
     """Собственники квартир"""
-    owner = models.CharField(verbose_name='ФИО владельца', max_length=200)
-    owner_correct_phone = PhoneNumberField(region="RU", verbose_name="Нормализованный номер владельца", blank=True,
-                                           null=True)
-    apartaments = models.ManyToManyField(Flat, related_name="owners",
-                                         verbose_name='Квартиры в собственности')
+    owner = models.CharField(verbose_name="ФИО владельца", max_length=200)
+    owner_correct_phone = PhoneNumberField(region="RU", verbose_name="Нормализованный номер владельца",  default='+79999999999')
+    apartaments = models.ManyToManyField("Flat", through="FlatOwnership", related_name="owners_list")
 
     def __str__(self):
-        return self.owner
+        return f'{self.owner} - {self.owner_correct_phone}'
+
+class FlatOwnership(models.Model):
+    """Связь между квартирами и владельцами"""
+    owner = models.ForeignKey(Owner, on_delete=models.CASCADE, related_name="ownerships")
+    flat = models.ForeignKey(Flat, on_delete=models.CASCADE, related_name="ownership_owners")
+
+    class Meta:
+        unique_together = ('owner', 'flat')  # Запрещаем дублирование связей
+
+    def __str__(self):
+        return f'{self.owner} владеет {self.flat.address}'
 
 
 class Complaint(models.Model):
